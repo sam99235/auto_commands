@@ -4,8 +4,10 @@
 #script history
 #first version realsead august 18 2024  used for only for remote command execution
 #last update 2/21/2026 sending key-strokes events and using multi-threading so i can quit using letter q key on the keyboard
+
 #use cases
 #presenting on powerpoint
+#remote command execution
 
 
 
