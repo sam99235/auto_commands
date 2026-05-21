@@ -9,6 +9,13 @@
 #presenting on powerpoint
 #remote command execution
 
+#TODO
+managing firewall permission automatically
+#import os
+# Example: Allow a specific port (e.g., 8080) for your app
+#os.system('netsh advfirewall firewall add rule name="PythonApp" dir=in action=allow protocol=TCP localport=8080')
+
+
 
 
 #requirements
