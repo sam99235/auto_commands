@@ -1,8 +1,9 @@
 #oussama mejdoubi
 ##a programme that listens on port 4545 and executes a cmd command from a smart phone 
-first version realsead august 18 2024
 
-last update 2/21/2026 adding multi-threading so i can quit using letter q key on the keyboard
+#script history
+#first version realsead august 18 2024  used for only for remote command execution
+#last update 2/21/2026 sending key-strokes events and using multi-threading so i can quit using letter q key on the keyboard
 #use cases
 #presenting on powerpoint
 
