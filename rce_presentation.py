@@ -10,7 +10,7 @@
 #remote command execution
 
 #TODO
-managing firewall permission automatically
+#managing firewall permission automatically
 #import os
 # Example: Allow a specific port (e.g., 8080) for your app
 #os.system('netsh advfirewall firewall add rule name="PythonApp" dir=in action=allow protocol=TCP localport=8080')
@@ -40,15 +40,10 @@ running = True
 
 def listen_for_quit():
     global running
-
     keyboard.wait('q')
     print("q pressed, exiting...")
-    srv.close()
     running = False
-
-# start keyboard listener thread
-threading.Thread(target=listen_for_quit, daemon=True).start()
-
+    srv.close()
 
 ##local port
 PORT = 4545
@@ -68,30 +63,41 @@ print("send anything to execuete commands\n" \
 "b: go backward")
 
 
-def execute_cmd():
-    data = ""
-    try:
-        data = srv.recv(1024)
-        data = data.decode('utf-8')
-        print(data)
-        if data=="f":
-            keyboard.press_and_release('space')
-        elif data=="b":
-            keyboard.press_and_release('up')
-        else:
-            print("send allowed commands")
-    except Exception:
-            pass
-    
 
-    # try:
-    #     subprocess.run(data,shell=True)
-    # except Exception as e:
-    #     print(f'error has occured {e}')
 
-        
+threading.Thread(target=listen_for_quit, daemon=True).start()
 
+PORT = 4545
+SERVER = socket.gethostbyname(socket.gethostname())
+ADDR = (SERVER, PORT)
+
+srv = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+srv.bind(ADDR)
+
+srv.settimeout(1.0)  # 🔥 IMPORTANT: prevents blocking forever
+
+print(f"Listening on {SERVER}:{PORT}")
 
 while running:
-    execute_cmd()
+    try:
+        data, addr = srv.recvfrom(1024)
+        data = data.decode().strip()
 
+        print(f"Received: {data} from {addr}")
+
+        if data == "f":
+            print("LOG: forward")
+            keyboard.press_and_release('space')
+
+        elif data == "b":
+            print("LOG: backward")
+            keyboard.press_and_release('up')
+
+        else:
+            print("Unknown command")
+
+    except socket.timeout:
+        continue  # allows checking `running`
+
+    except Exception as e:
+        print("Error:", e)
